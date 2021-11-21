@@ -5,6 +5,7 @@ import com.envyful.specs.forge.spec.data.Spec;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.pokemon.SpecValue;
 import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
+import com.pixelmonmod.pixelmon.enums.EnumBossMode;
 import net.minecraft.nbt.NBTTagCompound;
 
 import javax.annotation.Nullable;
@@ -50,7 +51,7 @@ public class BossSpec extends AbstractSpecFlag<Boolean> {
 
     @Override
     public boolean matches(EntityPixelmon entityPixelmon) {
-        return entityPixelmon.getBossMode() != null && this.value;
+        return entityPixelmon.getBossMode() != null && entityPixelmon.getBossMode() != EnumBossMode.NotBoss && this.value;
     }
 
     @Override
