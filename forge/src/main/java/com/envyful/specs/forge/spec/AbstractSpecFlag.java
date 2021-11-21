@@ -47,7 +47,7 @@ public abstract class AbstractSpecFlag<T> extends SpecValue<T> implements ISpecT
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbtTagCompound, SpecValue<?> specValue) {
+    public void writeToNBT(NBTTagCompound nbtTagCompound, SpecValue specValue) {
         if (specValue == null || specValue.value == null) {
             nbtTagCompound.setString(this.key, "");
         } else {
