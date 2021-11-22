@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
 public class BossSpec extends AbstractSpecFlag<Boolean> {
 
     public BossSpec(String key, Boolean value) {
-        super(key, value);
+        super(key, value, BossSpec::new);
     }
 
     @Override
@@ -36,6 +36,27 @@ public class BossSpec extends AbstractSpecFlag<Boolean> {
         }
 
         return new BossSpec(s, true);
+    }
+
+    @Override
+    protected Boolean parse(String key, String value, boolean negate) {
+        if (value == null) {
+            return !negate;
+        }
+
+        boolean bool = Boolean.parseBoolean(value);
+
+        if (!bool) {
+            if (value.equalsIgnoreCase("1")) {
+                bool = true;
+            }
+        }
+
+        if (negate) {
+            bool = !bool;
+        }
+
+        return bool;
     }
 
     @Override

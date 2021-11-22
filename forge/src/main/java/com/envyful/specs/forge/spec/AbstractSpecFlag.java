@@ -61,7 +61,7 @@ public abstract class AbstractSpecFlag<T> extends SpecValue<T> implements ISpecT
         return this.constructor.apply(args[0], this.parse(args[0], args[1], negate));
     }
 
-    abstract T parse(String key, String value, boolean negate);
+    protected abstract T parse(String key, String value, boolean negate);
 
     @Override
     public Class<T> getValueClass() {
