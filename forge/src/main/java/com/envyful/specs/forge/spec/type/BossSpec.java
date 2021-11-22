@@ -8,34 +8,14 @@ import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
 import com.pixelmonmod.pixelmon.enums.EnumBossMode;
 import net.minecraft.nbt.NBTTagCompound;
 
-import javax.annotation.Nullable;
-
 @Spec(
         value = { "boss", "b" },
         target = Boolean.class
 )
 public class BossSpec extends AbstractSpecFlag<Boolean> {
 
-    public BossSpec(String key, Boolean value) {
+    public BossSpec(String key, boolean value) {
         super(key, value, BossSpec::new);
-    }
-
-    @Override
-    public SpecValue<?> parse(@Nullable String s) {
-        if (s == null) {
-            return new BossSpec("b", true);
-        }
-
-        if (s.contains(":")) {
-            String[] args = s.split(":");
-            return new BossSpec(args[0], Boolean.parseBoolean(args[1]));
-        }
-
-        if (s.startsWith("!")) {
-            return new BossSpec(s.replace("!", ""), false);
-        }
-
-        return new BossSpec(s, true);
     }
 
     @Override
@@ -78,10 +58,5 @@ public class BossSpec extends AbstractSpecFlag<Boolean> {
     @Override
     public boolean matches(Pokemon pokemon) {
         return false;
-    }
-
-    @Override
-    public SpecValue<Boolean> clone() {
-        return new BossSpec(this.key, this.value);
     }
 }

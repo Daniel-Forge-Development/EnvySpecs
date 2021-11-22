@@ -115,4 +115,9 @@ public abstract class AbstractSpecFlag<T> extends SpecValue<T> implements ISpecT
 
     @Override
     public void apply(Pokemon pokemon) {}
+
+    @Override
+    public SpecValue<T> clone() {
+        return this.constructor.apply(this.key, this.value);
+    }
 }
