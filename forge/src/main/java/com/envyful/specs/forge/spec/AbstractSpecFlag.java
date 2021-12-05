@@ -10,7 +10,6 @@ import com.pixelmonmod.pixelmon.entities.pixelmon.EntityPixelmon;
 import net.minecraft.nbt.NBTTagCompound;
 
 import javax.annotation.Nullable;
-import java.lang.reflect.Constructor;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
