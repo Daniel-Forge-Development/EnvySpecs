@@ -55,7 +55,7 @@ public class DebugSpecCommand {
         EntityPixelmon pixelmon = (EntityPixelmon) entityHit;
         PokemonSpec spec = PokemonSpec.from(args);
         boolean match = spec.matches(pixelmon);
-        sender.sendMessage(new TextComponentString("§e§l(!) §eThe spec " + (match ? "§a§lmatches" : "§c§ldoesn't match") + "§ethe entity you're looking at"));
+        sender.sendMessage(new TextComponentString("§e§l(!) §eThe spec " + (match ? "§a§lmatches" : "§c§ldoesn't match") + "§e the entity you're looking at"));
         sender.sendMessage(new TextComponentString("§e§l(!) §ePokemon: §b" + pixelmon.getPokemonName()));
 
         if (!match) {
