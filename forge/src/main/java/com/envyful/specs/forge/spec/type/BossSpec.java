@@ -9,7 +9,7 @@ import com.pixelmonmod.pixelmon.enums.EnumBossMode;
 import net.minecraft.nbt.NBTTagCompound;
 
 @Spec(
-        value = { "boss", "b" },
+        value = { "isboss" },
         target = Boolean.class
 )
 public class BossSpec extends AbstractSpecFlag<Boolean> {
