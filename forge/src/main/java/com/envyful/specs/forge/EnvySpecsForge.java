@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 public class EnvySpecsForge {
 
     protected static final String MOD_ID = "envyspecs";
-    protected static final String VERSION = "0.3.0";
+    protected static final String VERSION = "1.0.0";
 
     @Mod.Instance(MOD_ID)
     private static EnvySpecsForge instance;
