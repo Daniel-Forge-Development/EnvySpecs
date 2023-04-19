@@ -51,7 +51,7 @@ public class MinIVsRequirement extends AbstractIntegerPokemonRequirement {
                 ivs[i] = (int) (31 * (this.value / 100.00));
             }
 
-            while (this.calculateIVPercentage(ivs) < this.value) {
+            while (this.calculateIVPercentage(ivs) <= this.value) {
                 int slot = UtilRandom.randomInteger(0, 5);
 
                 if (ivs[slot] == 31) {
