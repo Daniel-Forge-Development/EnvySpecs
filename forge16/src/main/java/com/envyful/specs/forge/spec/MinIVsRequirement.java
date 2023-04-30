@@ -17,11 +17,11 @@ public class MinIVsRequirement extends AbstractIntegerPokemonRequirement {
     );
 
     public MinIVsRequirement() {
-        super(KEYS, 50);
+        super(KEYS, 0);
     }
 
     public MinIVsRequirement(int value) {
-        super(KEYS, 50, value);
+        super(KEYS, 0, value);
     }
 
     @Override
@@ -36,32 +36,22 @@ public class MinIVsRequirement extends AbstractIntegerPokemonRequirement {
 
     @Override
     public void applyData(Pokemon pokemon) {
-        this.calculateIVs().whenComplete((ivs, error) -> pokemon.getIVs().fillFromArray(ivs));
+        this.calculateIVs(pokemon.getIVs().getArray()).whenComplete((ivs, error) -> pokemon.getIVs().fillFromArray(ivs));
     }
 
-    private CompletableFuture<int[]> calculateIVs() {
-        if (this.value == 100) {
+    private CompletableFuture<int[]> calculateIVs(int[] currentIvs) {
+        if (this.value >= 100) {
             return CompletableFuture.completedFuture(new int[] {31, 31, 31, 31, 31, 31});
         }
 
         return CompletableFuture.supplyAsync(() -> {
-            int[] ivs = new int[6];
+        	IVStore ivs = IVStore.createRandomNewIVs();
 
-            for (int i = 0; i < 5; i++) {
-                ivs[i] = (int) (31 * (this.value / 100.00));
+            while (this.calculateIVPercentage(ivs.getArray()) < this.value) {
+            	ivs = IVStore.createRandomNewIVs();
             }
 
-            while (this.calculateIVPercentage(ivs) <= this.value) {
-                int slot = UtilRandom.randomInteger(0, 5);
-
-                if (ivs[slot] == 31) {
-                    continue;
-                }
-
-                ivs[slot]++;
-            }
-
-            return ivs;
+            return ivs.getArray();
         });
     }
 
