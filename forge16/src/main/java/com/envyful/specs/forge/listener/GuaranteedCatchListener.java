@@ -12,7 +12,7 @@ public class GuaranteedCatchListener {
             return;
         }
 
-        event.setCatchRate(255);
+        event.getCaptureValues().setCatchRate(255);
     }
 
 }

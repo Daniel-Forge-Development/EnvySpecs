@@ -11,7 +11,7 @@ public class UncatchableListener {
             return;
         }
 
-        event.setCatchRate(0);
+        event.getCaptureValues().setCatchRate(0);
         event.setCanceled(true);
     }
 
