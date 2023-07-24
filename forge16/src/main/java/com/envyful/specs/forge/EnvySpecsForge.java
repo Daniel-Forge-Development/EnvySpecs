@@ -33,5 +33,6 @@ public class EnvySpecsForge {
         PokemonSpecificationProxy.register(new LevelHigherThanEqualToRequirement());
         PokemonSpecificationProxy.register(new LevelLessThanRequirement());
         PokemonSpecificationProxy.register(new LevelLessThanEqualToRequirement());
+        PokemonSpecificationProxy.register(new AnySpeciesRequirement());
     }
 }
