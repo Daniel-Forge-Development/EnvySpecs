@@ -1,7 +1,6 @@
 package com.envyful.specs.forge;
 
 import com.envyful.specs.forge.listener.GuaranteedCatchListener;
-import com.envyful.specs.forge.listener.UncatchableListener;
 import com.envyful.specs.forge.listener.UndeletableListener;
 import com.envyful.specs.forge.spec.*;
 import com.pixelmonmod.api.pokemon.PokemonSpecificationProxy;
@@ -15,7 +14,6 @@ public class EnvySpecsForge {
 
     public EnvySpecsForge() {
         Pixelmon.EVENT_BUS.register(new UndeletableListener());
-        Pixelmon.EVENT_BUS.register(new UncatchableListener());
         Pixelmon.EVENT_BUS.register(new GuaranteedCatchListener());
         Pixelmon.EVENT_BUS.register(this);
     }
