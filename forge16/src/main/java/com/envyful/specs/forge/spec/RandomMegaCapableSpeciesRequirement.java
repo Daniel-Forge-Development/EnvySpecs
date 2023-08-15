@@ -56,6 +56,7 @@ public class RandomMegaCapableSpeciesRequirement extends AbstractPokemonRequirem
     @Override
     public void applyData(Pokemon pokemon) {
         pokemon.setSpecies(this.species, true);
+        pokemon.setForm(this.species.getValueUnsafe().getDefaultForm().getRandomMegaForm());
     }
 
     @Override
