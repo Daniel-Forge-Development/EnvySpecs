@@ -1,20 +1,9 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven {
-            name = 'forge'
-            url = 'https://files.minecraftforge.net/maven'
-        }
-        maven {
-            url = 'https://plugins.gradle.org/m2/'
-        }
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.+', changing: true
-    }
+plugins {
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
-apply plugin: 'net.minecraftforge.gradle'
+java.toolchain.languageVersion = JavaLanguageVersion.of(11)
 forgeVersion = "1.16.5"
 
 minecraft {
@@ -23,45 +12,27 @@ minecraft {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-repositories {
-    maven {
-        name = 'spongepowered-repo'
-        url = 'https://repo.spongepowered.org/maven'
-    }
-
-    maven {
-        url "https://maven.envyware.co.uk/releases"
-    }
-
-    ivy {
-        setUrl('https://download.nodecdn.net/containers/reforged/server/release')
-        metadataSources {
-            artifact()
-        }
-        patternLayout {
-            artifact('[revision]/[artifact].[ext]')
-        }
-    }
-}
+repositories {}
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.39'
-    implementation 'pixelmon:Pixelmon-1.16.5-9.1.6-server:9.1.6'
+    implementation 'pixelmon:Pixelmon-1.16.5-9.1.7-server:9.1.7'
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow group: 'com.envyful.api', name: 'commons', version: '4.8.3'
-    shadow (group: 'com.envyful.api', name: 'forge16', version: '4.8.3') {
+    shadow group: 'com.envyful.api', name: 'commons', version: '5.0.3'
+    shadow (group: 'com.envyful.api', name: 'forge16', version: '5.0.3') {
         transitive = false;
     }
-    shadow (group: 'com.envyful.api', name: 'reforged16', version: '4.8.3') {
+    shadow (group: 'com.envyful.api', name: 'reforged16', version: '5.0.3') {
         transitive = false;
     }
 }
 
 shadowJar {
     configurations = [project.configurations.shadow]
-    archiveName = rootProject.name + '-Forge.jar'
+    setArchiveClassifier('')
+    setArchiveBaseName("${rootProject.name}-Forge")
 
     relocate('org.spongepowered.configurate', 'com.envyful.specs.forge.shade.configurate')
     relocate('org.yaml.snakeyaml', 'com.envyful.specs.forge.shade.snakeyaml')
@@ -71,15 +42,26 @@ shadowJar {
     relocate('org.slf4j', 'com.envyful.specs.forge.shade.slf4j')
     relocate('com.envyful.api', 'com.envyful.specs.forge.shade.envy.api')
     relocate('org.bstats', 'com.envyful.specs.forge.shade.bstats')
-    
+    relocate('com.google.common', 'com.envyful.specs.forge.shade.guava')
+    relocate('org.apache.logging', 'com.envyful.specs.forge.shade.log4j')
+    relocate('io.netty', 'com.envyful.specs.forge.shade.netty')
+    relocate('io.lettuce', 'com.envyful.specs.forge.shade.lettuce')
+    relocate('com.cronutils', 'com.envyful.specs.forge.shade.cronutils')
+    relocate('com.cronutils', 'com.envyful.specs.forge.shade.cronutils')
+    relocate('com.sun.el', 'com.envyful.specs.forge.shade.sun.el')
+    relocate('javax', 'com.envyful.specs.forge.shade.javax')
+    relocate('javax', 'com.envyful.specs.forge.shade.javax')
+    relocate('org.reactivestreams', 'com.envyful.specs.forge.shade.reactivestreams')
+    relocate('reactor', 'com.envyful.specs.forge.shade.reactor')
+
     exclude "**/module-info.class"
+    exclude "**/*.properties"
+    exclude "**/*.xml"
+    exclude "META-INF/versions/9/**"
+    exclude "META-INF/native-image/**"
+    exclude "META-INF/services/**"
 }
 
-reobf {
-    shadowJar {
-        classpath = sourceSets.main.compileClasspath
-    }
-}
-
-jar.finalizedBy('reobfJar')
+jar.finalizedBy('shadowJar')
+shadowJar.finalizedBy('reobfJar')
 build.finalizedBy('versionedRelease')
