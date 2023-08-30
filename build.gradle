@@ -2,7 +2,7 @@ subprojects {
     apply plugin: 'java'
 
     group = 'com.envyful.specs'
-    version = '1.0.6'
+    version = '1.1.0'
 
     ext {
         forgeVersion = "none"
