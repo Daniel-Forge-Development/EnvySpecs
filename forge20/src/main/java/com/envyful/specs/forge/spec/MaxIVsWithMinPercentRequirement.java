@@ -2,8 +2,8 @@ package com.envyful.specs.forge.spec;
 
 import com.envyful.api.type.Pair;
 import com.envyful.api.type.UtilParse;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.pixelmonmod.api.parsing.ParseAttempt;
 import com.pixelmonmod.api.pokemon.requirement.AbstractPokemonRequirement;
 import com.pixelmonmod.api.requirement.Requirement;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
@@ -39,31 +39,32 @@ public class MaxIVsWithMinPercentRequirement extends AbstractPokemonRequirement<
     }
 
     @Override
-    public List<Requirement<Pokemon, PixelmonEntity, ?>> createSimple(String key, String spec) {
+    public ParseAttempt<List<Requirement<Pokemon, PixelmonEntity, ?>>> create(String key, String spec) {
         if (!spec.startsWith(key + ":")) {
-            return Collections.emptyList();
+            return ParseAttempt.error("No key found for " + key  + " in spec " + spec);
         }
 
         spec = spec.replace(key + ":", "");
         String[] args = spec.split("-");
 
         if (args.length != 2) {
-            return Collections.emptyList();
+            return ParseAttempt.error("Not enough data supplied for random iv generation");
         }
 
         int maxIVCount = UtilParse.parseInteger(args[0]).orElse(-1);
 
         if (maxIVCount < 0 || maxIVCount > 6) {
-            return Collections.emptyList();
+            return ParseAttempt.error("Invalid max IV count. Must be between 0 and 6");
         }
 
         double minPercent = UtilParse.parseDouble(args[1]).orElse(-1.0);
 
         if (minPercent < 0 || minPercent > 100 || !this.isValidPercentage(maxIVCount, minPercent)) {
-            return Collections.emptyList();
+            return ParseAttempt.error("Invalid percentage given");
         }
 
-        return Lists.newArrayList(this.createInstance(Pair.of(maxIVCount, minPercent)));
+        return this.createInstance(Pair.of(maxIVCount, minPercent))
+                .map(Collections::singletonList);
     }
 
     private boolean isValidPercentage(int maxIVCount, double minPercent) {
@@ -86,8 +87,8 @@ public class MaxIVsWithMinPercentRequirement extends AbstractPokemonRequirement<
     }
 
     @Override
-    public Requirement<Pokemon, PixelmonEntity, Pair<Integer, Double>> createInstance(Pair<Integer, Double> pair) {
-        return new MaxIVsWithMinPercentRequirement(pair.getKey(), pair.getValue());
+    public ParseAttempt<Requirement<Pokemon, PixelmonEntity, Pair<Integer, Double>>> createInstance(Pair<Integer, Double> pair) {
+        return ParseAttempt.success(new MaxIVsWithMinPercentRequirement(pair.getKey(), pair.getValue()));
     }
 
     @Override

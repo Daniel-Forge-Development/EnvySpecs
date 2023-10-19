@@ -2,6 +2,7 @@ package com.envyful.specs.forge.spec;
 
 import com.envyful.specs.forge.Flags;
 import com.google.common.collect.Sets;
+import com.pixelmonmod.api.parsing.ParseAttempt;
 import com.pixelmonmod.api.pokemon.requirement.AbstractBooleanPokemonRequirement;
 import com.pixelmonmod.api.requirement.Requirement;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
@@ -24,8 +25,8 @@ public class UndeletableRequirement extends AbstractBooleanPokemonRequirement {
     }
 
     @Override
-    public Requirement<Pokemon, PixelmonEntity, Boolean> createInstance(Boolean aBoolean) {
-        return new UndeletableRequirement(aBoolean);
+    public ParseAttempt<Requirement<Pokemon, PixelmonEntity, Boolean>> createInstance(Boolean aBoolean) {
+        return ParseAttempt.success(new UndeletableRequirement(aBoolean));
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.envyful.specs.forge.spec;
 
 import com.envyful.api.math.UtilRandom;
 import com.google.common.collect.Sets;
+import com.pixelmonmod.api.parsing.ParseAttempt;
 import com.pixelmonmod.api.pokemon.requirement.AbstractIntegerPokemonRequirement;
 import com.pixelmonmod.api.requirement.Requirement;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
@@ -25,8 +26,8 @@ public class MinIVsRequirement extends AbstractIntegerPokemonRequirement {
     }
 
     @Override
-    public Requirement<Pokemon, PixelmonEntity, Integer> createInstance(Integer integer) {
-        return new MinIVsRequirement(integer);
+    public ParseAttempt<Requirement<Pokemon, PixelmonEntity, Integer>> createInstance(Integer integer) {
+        return ParseAttempt.success(new MinIVsRequirement(integer));
     }
 
     @Override

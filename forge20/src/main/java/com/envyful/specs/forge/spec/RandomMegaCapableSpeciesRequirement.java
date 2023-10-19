@@ -1,6 +1,7 @@
 package com.envyful.specs.forge.spec;
 
 import com.google.common.collect.Sets;
+import com.pixelmonmod.api.parsing.ParseAttempt;
 import com.pixelmonmod.api.pokemon.requirement.AbstractPokemonRequirement;
 import com.pixelmonmod.api.registry.RegistryValue;
 import com.pixelmonmod.api.requirement.Requirement;
@@ -29,9 +30,9 @@ public class RandomMegaCapableSpeciesRequirement extends AbstractPokemonRequirem
     }
 
     @Override
-    public List<Requirement<Pokemon, PixelmonEntity, ?>> createSimple(String key, String spec) {
+    public ParseAttempt<List<Requirement<Pokemon, PixelmonEntity, ?>>> create(String key, String spec) {
         if (!spec.equalsIgnoreCase(key)) {
-            return Collections.emptyList();
+            return ParseAttempt.error("No key found");
         }
 
         Species randomSpecies = PixelmonSpecies.getRandomSpecies();
@@ -40,12 +41,13 @@ public class RandomMegaCapableSpeciesRequirement extends AbstractPokemonRequirem
             randomSpecies = PixelmonSpecies.getRandomSpecies();
         }
 
-        return Collections.singletonList(createInstance(randomSpecies.getRegistryValue()));
+        return createInstance(randomSpecies.getRegistryValue())
+                .map(Collections::singletonList);
     }
 
     @Override
-    public Requirement<Pokemon, PixelmonEntity, RegistryValue<Species>> createInstance(RegistryValue<Species> species) {
-        return new RandomMegaCapableSpeciesRequirement(species);
+    public ParseAttempt<Requirement<Pokemon, PixelmonEntity, RegistryValue<Species>>> createInstance(RegistryValue<Species> species) {
+        return ParseAttempt.success(new RandomMegaCapableSpeciesRequirement(species));
     }
 
     @Override

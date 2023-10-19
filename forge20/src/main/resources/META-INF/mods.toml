@@ -17,7 +17,7 @@ EnvySpecs
 [[dependencies.envyspecs]]
 modId="forge"
 mandatory=true
-versionRange="[47.1.28,)"
+versionRange="[48.0.30,)"
 ordering="NONE"
 side="BOTH"
 
